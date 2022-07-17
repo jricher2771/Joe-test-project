@@ -1,1 +1,3 @@
 joe-test
+.terraform/
+terraform.tfstate
