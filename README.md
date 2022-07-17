@@ -4,7 +4,7 @@
 
 This project aims to implement a Semantic Version tagging Scheme in the form of:
 
-'''registry/image:Major.Minor.Patch.'''
+```registry/image:Major.Minor.Patch.```
 
 #### Using buildandpush.sh
 
