@@ -55,9 +55,9 @@ jobs:
         run: |
 
           docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
-          docker pull joey2771/hello:latest
-          docker stop hello
-          docker rm hello 
+          docker pull joey2771/hello:latest &&
+          docker stop hello ||
+          docker rm hello ||
           docker run -d -p 8000:8000 --name hello joey2771/hello:latest 
       
 
