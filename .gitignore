@@ -5,3 +5,5 @@ provision/.mykey.pem
 provision/.*
 provision/terraform.*
 .ssh/*
+.DS_Store
+.env

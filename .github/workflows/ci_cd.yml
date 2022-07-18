@@ -1,0 +1,67 @@
+name: CI/CD hello-world app    
+
+on:
+  push:
+    branches: [ "main" ]
+    tags:
+      - "*.*.*"
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: joey2771/hello:latest 
+  Deploy:
+    needs: docker 
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout the files
+        uses: actions/checkout@v3
+      
+      # Runs a single command using the runners shell
+      - name: Deploy in EC2
+        env:
+            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+            HOSTNAME : ${{ secrets.HOSTNAME }}
+            USER_NAME : ${{ secrets.USER_NAME }}
+        
+        run: |
+          # echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+
+          docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_TOKEN
+          docker pull joey2771/hello:latest
+          docker stop hello
+          docker rm hello 
+          docker run -d -p 8000:8000 --name hello joey2771/hello:latest 
+      
+
+     
+      
