@@ -23,7 +23,18 @@ Images can be created, tagged and pushed using 'buildandpush.sh' with the option
 
 Example: './buildandpush.sh -m 1.1.1'. This will increment the version you provided if you're still working with localhost.
 
-Valid identifiers are [0-9] only and hasn't been tested for [A-Za-z], arguments must be given in order to sucessfully execute.
+Valid identifiers are [0-9] only and hasn't been tested for [A-Za-z], arguments must be given in order to sucessfully execute.  
+  
+
+### Deployment to EC2
+
+Unfortunately this didn't quite work. This was an attempt to deploy an image to the created EC2 instance using Github Actions. 
+
+Code would be commited,built and executed on both pull requests and when merged into main.  
+
+Maintaining the tagging scheme above was another challenge as I didn't see a real way to query a remote container registry on what available tags existed. Though actions such as docker-meta exist which parse out various tags that belong to a container I couldn't get this specific action to work. 
+
+On reflection I don't think this was the optimal way to deploy to AWS. With more time I would have liked to have looked further into AWS ECR, CodeBuild and CodeDeploy.
 
 ### CI/CD Diagram
 
