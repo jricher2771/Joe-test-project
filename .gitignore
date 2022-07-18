@@ -4,3 +4,4 @@ terraform.tfstate
 provision/.mykey.pem
 provision/.*
 provision/terraform.*
+.ssh/*
