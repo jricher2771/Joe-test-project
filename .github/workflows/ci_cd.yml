@@ -53,10 +53,8 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME }}
         
         run: |
-          # echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
 
-          docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_TOKEN
+          docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
           docker pull joey2771/hello:latest
           docker stop hello
           docker rm hello 
